@@ -3,7 +3,7 @@ A simple heat transfer simulator for a Solar Water Heating system
 
 ## Purpose
 We want to predict the temperature of the water in the main storage tank over discrete time segments based on:
-* Variables such as solar irradiance, hot water usage, and electric heater/heat pump usage.
+* Variables such as solar irradiance, hot water demand, and electric heater/heat pump usage.
 * Constants such as panel array area and thermal efficiency.
 
 ## Solar Water Heating (SWH) System
@@ -38,17 +38,36 @@ For this simulator I assume a system similar to the one described by Li et al. (
 These equations are similar (and in some cases identical) to those given by Li et al. (see [sources](#sources)).
 
 Temperature of the main tank during a discrete time segment:
-T = (1 - L)T₋₁ + (Qₛ + Qₕ) / (CV) - (<i>d</i>W D) / V
+T = (1 - L)T₋₁ + (Qₛ + Qₕ) / (C x V) - (<i>d</i>W x D) / V
 
 * T: Temperature of main tank during the time slice
 * L: Heat loss coefficient of main tank
 * T₋₁: Temperature of main tank during the previous time slice
 * Qₛ: Solar energy transferred to the main tank during the time slice
-* Qₕ: Energy transferred by the electric heater/heat pump to the main tank during the time slice
+* Qₕ: Energy transferred by the electric heater (EH) or heat pump (HP) to the main tank during the time slice
 * C: Specific heat of the heat transfer fluid
 * V: Volume of the main tank
 * <i>d</i>W: Difference in temperature between the set point and the cold tap water
 * D: Demand in liters for water at the set point temperature during the time slice
+
+There are a few more values to derive. First, the solar energy captured and transferred during a time slice:
+
+Qₛ = I (e x A x N) <i>d</i>t
+
+* I: Solar irradiance (kW/m²) during the time slice
+* e: The thermal efficiency of the Solar Thermal Collector (STC)
+* A: The area of a panel in the STC array
+* N: The number of panels in the STC array
+* <i>d</i>t: The length of the time slice
+
+(Note: If a heat exchanger is used, the thermal efficiency will include the efficiency of the heat exchanger in addition to the efficiency of the STC. A heat exchanger is necessary if the heat transfer fluid is not water. And it may be desirable to use a heat exchanger even with water pipes if you are worried about contaminants entering the STC or plumbing.)
+
+The heat energy transferred to the main tank from the electric heater (EH) or heat pump (HP) during a time slice:
+
+Qₕ = COP x P x <i>d</i>t
+
+* COP: Coefficient of Performance of the EH/HP
+* P: Power consumption of the EH/HP
 
 ## Sources
 I used the following sources to understand the terminology and components of SWH systems:
