@@ -50,6 +50,6 @@ pub fn main() !void {
                 .{time_temp.time, time_temp.temp});
         }
     } else {
-        try stderr.print("Usage: ./simulator config.json\n", .{});
+        try stderr.print("Usage: ./simulator inputs.json\n", .{});
     }
 }
