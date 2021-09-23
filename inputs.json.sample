@@ -13,5 +13,5 @@
     "hot_water_demand": [{"time": 0, "value": 500}],
     "tank_volume": 10000,
     "tank_loss_coefficient": 0.001,
-    "ending_time": 1
+    "end_time": 1
 }
