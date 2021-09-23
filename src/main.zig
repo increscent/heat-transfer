@@ -1,32 +1,11 @@
 const std = @import("std");
+const sim = @import("./simulator.zig");
 const io = std.io;
 const stdin = io.getStdIn();
 const stdout = io.getStdOut().writer();
 const stderr = io.getStdErr().writer();
 
-const DynamicInput = struct {
-    time: f32,
-    value: f32,
-};
-
-const SimInputs = struct {
-    time_slice_length: f32,
-    starting_temp: f32,
-    set_point_temp: f32,
-    cold_water_temp: f32,
-    solar_irradiance: []DynamicInput,
-    stc_panel_area: f32,
-    stc_panel_count: u32,
-    stc_efficiency: f32,
-    specific_heat: f32,
-    aux_heat_power: []DynamicInput,
-    aux_efficiency: f32,
-    hot_water_demand: []DynamicInput,
-    tank_volume: u32,
-    tank_loss_coefficient: f32,
-};
-
-fn parseConfig(filename: []u8, allocator: *std.mem.Allocator) !SimInputs {
+fn parseInputs(filename: []u8, allocator: *std.mem.Allocator) !sim.SimInputs {
     const file = try std.fs.cwd().openFile(
         filename,
         .{ .read = true },
@@ -40,7 +19,7 @@ fn parseConfig(filename: []u8, allocator: *std.mem.Allocator) !SimInputs {
     // This is necessary because the json parser traverses the whole
     // struct at compile time, and the default of 1000 is not sufficient.
     @setEvalBranchQuota(10000);
-    return try std.json.parse(SimInputs, &stream, .{.allocator = allocator});
+    return try std.json.parse(sim.SimInputs, &stream, .{.allocator = allocator});
 }
 
 pub fn main() !void {
@@ -51,14 +30,25 @@ pub fn main() !void {
     var args_it = std.process.args();
     // Skip the executable name
     _ = args_it.skip();
+
     if (args_it.next(allocator)) |arg| {
-        const config = parseConfig(try arg, allocator) catch |err| {
-            try stderr.print("There was an error while parsing" ++
+        // Parse input
+        const inputs = parseInputs(try arg, allocator) catch |err| {
+            try stderr.print("There was an error while parsing " ++
                 "the JSON file: {}\n", .{err});
             return;
         };
 
-        std.debug.print("Siminputs: {}\n", .{config});
+        // Run simulation
+        const output = try sim.simulate(inputs, allocator);
+
+        // Print output
+        try stdout.print("time, temperature\n", .{});
+
+        for (output) |time_temp| {
+            try stdout.print("{d:.6}, {d:.6}\n",
+                .{time_temp.time, time_temp.temp});
+        }
     } else {
         try stderr.print("Usage: ./simulator config.json\n", .{});
     }

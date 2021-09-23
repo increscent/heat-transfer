@@ -107,6 +107,8 @@ These are the inputs to the simulator that the user provides:
   - Default: 10000 L
 * Heat loss coefficient of the main tank:
   - Default: 0.1% / hr
+* Ending time:
+  - Default: 1 hr
 
 ## Outputs
 
