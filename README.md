@@ -8,7 +8,14 @@ A simple heat transfer simulator for a Solar Water Heating system
 ## Building
 
 * Run `zig build` in the root directory
+
+## Running
+
 * Execute the program with `./zig-out/bin/simulator inputs.json.sample`
+
+## Testing
+
+* Run `zig test ./src/simulator.zig` in the root directory
 
 ## Purpose
 We want to predict the temperature of the water in the main storage tank over discrete time segments based on:

@@ -164,3 +164,117 @@ pub fn simulate(inputs: SimInputs, allocator: *std.mem.Allocator) ![]TimeTemp {
     // No need for deinit() because the caller now owns this
     return output.toOwnedSlice();
 }
+
+// Tests
+
+var test_irradiance = [_]DynamicInput{
+    DynamicInput{ .time = 0, .value = 1.361 }
+};
+
+var test_power = [_]DynamicInput{
+    DynamicInput{ .time = 0, .value = 0 }
+};
+
+var test_demand = [_]DynamicInput{
+    DynamicInput{ .time = 0, .value = 500 }
+};
+
+const test_inputs = SimInputs{
+    .time_slice_length = 0.1,
+    .starting_temp = 60,
+    .set_point_temp = 60,
+    .cold_water_temp = 10,
+    .solar_irradiance = test_irradiance[0..],
+    .stc_panel_area = 3,
+    .stc_panel_count = 100,
+    .stc_efficiency = 0.5,
+    .specific_heat = 0.0012,
+    .aux_heat_power = test_power[0..],
+    .aux_efficiency = 0.75,
+    .hot_water_demand = test_demand[0..],
+    .tank_volume = 10000,
+    .tank_loss_coefficient = 0.001,
+    .end_time = 1,
+};
+
+const test_allocator = std.testing.allocator;
+
+test "basic inputs" {
+    var inputs = test_inputs;
+    const output = try simulate(inputs, test_allocator);
+    defer test_allocator.free(output);
+
+    try expect(output[0].temp == 60.0);
+    try expect(output[1].temp == 61.445248);
+    try expect(output[9].temp == 73.002037);
+}
+
+test "smaller interval than time slice" {
+    var inputs = test_inputs;
+    var demand = [_]DynamicInput{
+        DynamicInput{ .time = 0, .value = 100 },
+        DynamicInput{ .time = 0.025, .value = 200 },
+        DynamicInput{ .time = 0.05, .value = 500 },
+        DynamicInput{ .time = 0.10, .value = 1000 },
+    };
+    inputs.hot_water_demand = demand[0..];
+    const output = try simulate(inputs, test_allocator);
+    defer test_allocator.free(output);
+
+    try expect(output[0].temp == 60.0);
+    try expect(output[1].temp == 61.532749);
+    try expect(output[9].temp == 71.090156);
+}
+
+test "different irradiance values" {
+    var inputs = test_inputs;
+    var irradiance = [_]DynamicInput{
+        DynamicInput{ .time = 0.0, .value = 0.500 },
+        DynamicInput{ .time = 0.1, .value = 0.635 },
+        DynamicInput{ .time = 0.2, .value = 0.723 },
+        DynamicInput{ .time = 0.3, .value = 0.811 },
+        DynamicInput{ .time = 0.4, .value = 0.976 },
+        DynamicInput{ .time = 0.5, .value = 1.034 },
+        DynamicInput{ .time = 0.6, .value = 0.976 },
+        DynamicInput{ .time = 0.7, .value = 0.811 },
+        DynamicInput{ .time = 0.2, .value = 0.723 },
+        DynamicInput{ .time = 0.1, .value = 0.635 },
+    };
+    inputs.solar_irradiance = irradiance[0..];
+    const output = try simulate(inputs, test_allocator);
+    defer test_allocator.free(output);
+
+    try expect(output[0].temp == 60.0);
+    try expect(output[1].temp == 60.368999);
+    try expect(output[3].temp == 61.554371);
+    try expect(output[5].temp == 63.275730);
+    try expect(output[7].temp == 64.065475);
+    try expect(output[9].temp == 65.140099);
+}
+
+test "using the auxiliary water heater" {
+    var inputs = test_inputs;
+    var power = [_]DynamicInput{
+        DynamicInput{ .time = 0.0, .value = 100 },
+    };
+    inputs.aux_heat_power = power[0..];
+    const output = try simulate(inputs, test_allocator);
+    defer test_allocator.free(output);
+
+    try expect(output[0].temp == 60.0);
+    try expect(output[1].temp == 62.070248);
+    try expect(output[5].temp == 70.349167);
+    try expect(output[9].temp == 78.624779);
+}
+
+test "smaller tank" {
+    var inputs = test_inputs;
+    inputs.tank_volume = 5000;
+    const output = try simulate(inputs, test_allocator);
+    defer test_allocator.free(output);
+
+    try expect(output[0].temp == 60.0);
+    try expect(output[1].temp == 62.896500);
+    try expect(output[6].temp == 77.374649);
+    try expect(output[9].temp == 86.058060);
+}
