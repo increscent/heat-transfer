@@ -1,0 +1,18 @@
+{
+    "time_slice_length": 0.1,
+    "starting_temp": 60,
+    "set_point_temp": 60,
+    "cold_water_temp": 10,
+    "solar_irradiance":
+        [{"time": 0.000000, "value": 0.0}, {"time": 0.500000, "value": 0.0}, {"time": 1.000000, "value": 0.0}, {"time": 1.500000, "value": 0.0}, {"time": 2.000000, "value": 0.30}, {"time": 2.500000, "value": 0.114}, {"time": 3.000000, "value": 0.211}, {"time": 3.500000, "value": 0.307}, {"time": 4.000000, "value": 0.396}, {"time": 4.500000, "value": 0.472}, {"time": 5.000000, "value": 0.534}, {"time": 5.500000, "value": 0.583}, {"time": 6.000000, "value": 0.617}, {"time": 6.500000, "value": 0.634}, {"time": 7.000000, "value": 0.634}, {"time": 7.500000, "value": 0.615}, {"time": 8.000000, "value": 0.581}, {"time": 8.500000, "value": 0.532}, {"time": 9.000000, "value": 0.468}, {"time": 9.500000, "value": 0.391}, {"time": 10.000000, "value": 0.304}, {"time": 10.500000, "value": 0.209}, {"time": 11.000000, "value": 0.94}, {"time": 11.500000, "value": 0.22}, {"time": 12.000000, "value": 0.0}, {"time": 12.500000, "value": 0.0}, {"time": 13.000000, "value": 0.0}, {"time": 13.500000, "value": 0.0}, {"time": 14.000000, "value": 0.0}, {"time": 14.500000, "value": 0.0}], 
+    "stc_panel_area": 3,
+    "stc_panel_count": 100,
+    "stc_efficiency": 0.5,
+    "specific_heat": 0.0012,
+    "aux_heat_power": [{"time": 0, "value": 0}],
+    "aux_efficiency": 0.75,
+    "hot_water_demand": [{"time": 0, "value": 500}],
+    "tank_volume": 10000,
+    "tank_loss_coefficient": 0.001,
+    "end_time": 12
+}

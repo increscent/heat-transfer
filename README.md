@@ -3,7 +3,8 @@ A simple heat transfer simulator for a Solar Water Heating system
 
 ## Dependencies
 
-* Zig
+* zig
+* python3 with matplotlib (optional)
 
 ## Building
 
@@ -11,7 +12,8 @@ A simple heat transfer simulator for a Solar Water Heating system
 
 ## Running
 
-* Execute the program with `./zig-out/bin/simulator inputs.json.sample`
+* To run a simulation, `./zig-out/bin/simulator examples/basic_inputs.json`
+* To show a plot, `./zig-out/bin/simulator examples/solar_irradiance.json | python3 plot.py`
 
 ## Testing
 
@@ -100,7 +102,7 @@ These are the inputs to the simulator that the user provides:
 * Cold tap water temperature:
   - Default: 10 ◦C
 * Solar irradiance over time:
-  - The user provides a list of tuples (time, irradiance) and the irradiance value is used starting at that time until the time of the next tuple is reached. An irradiance value at time 0 is required.
+  - The user provides a list of tuples (time, irradiance) and the irradiance value is used starting at that time until the time of the next tuple is reached. An irradiance value at time 0 is required. Must be sorted by time.
   - Default: [(0, 1.361 kW/m²)]
 * Area of each STC panel:
   - Default: 3 m²
@@ -112,12 +114,12 @@ These are the inputs to the simulator that the user provides:
 * Specific heat capacity of the heat transfer fluid:
   - Default: 0.0012 [kW·h/(L◦C)]
 * Power supplied to the electric heater or heat pump over time:
-  - The user provides a list of tuples (time, power) and the power value is used starting at the time until the time of the next tuple is reached. A power value at time 0 is required.
+  - The user provides a list of tuples (time, power) and the power value is used starting at the time until the time of the next tuple is reached. A power value at time 0 is required. Must be sorted by time.
   - Default: [(0, 0 kW)]
 * Coefficient of performance of the electric heater or heat pump
   - Default: 0.75
 * Demand for hot water over time:
-  - The user provides a list of tuples (time, liters per hour) and the demand value is used starting at the time until the time of the next tuple is reached. A demand value at time 0 is required.
+  - The user provides a list of tuples (time, liters per hour) and the demand value is used starting at the time until the time of the next tuple is reached. A demand value at time 0 is required. Must be sorted by time.
   - Default: [(0, 500 L/hr)]
 * Volume of the main tank:
   - Default: 10000 L
