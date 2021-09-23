@@ -40,10 +40,10 @@ For this simulator I assume a system similar to the one described by Li et al. (
 These equations are similar (and in some cases identical) to those given by Li et al. (see [sources](#sources)).
 
 Temperature of the main tank during a discrete time segment:
-T = (1 - L)T₋₁ + (Qₛ + Qₕ) / (C x V) - (<i>d</i>W x D x <i>d</i>t) / V
+T = (1 - L x <i>d</i>t)T₋₁ + (Qₛ + Qₕ) / (C x V) - (<i>d</i>W x D x <i>d</i>t) / V
 
 * T: Temperature of main tank during the time slice (◦C)
-* L: Heat loss coefficient of main tank
+* L: Heat loss coefficient of main tank (% per hr)
 * T₋₁: Temperature of main tank during the previous time slice (◦C)
 * Qₛ: Solar energy transferred to the main tank during the time slice (kWh)
 * Qₕ: Energy transferred by the electric heater (EH) or heat pump (HP) to the main tank during the time slice (kWh)
@@ -105,6 +105,8 @@ These are the inputs to the simulator that the user provides:
   - Default: [(0, 500 L/hr)]
 * Volume of the main tank:
   - Default: 10000 L
+* Heat loss coefficient of the main tank:
+  - Default: 0.1% / hr
 
 ## Outputs
 

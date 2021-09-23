@@ -1,0 +1,16 @@
+{
+    "time_slice_length": 0.1,
+    "starting_temp": 60,
+    "set_point_temp": 60,
+    "cold_water_temp": 10,
+    "solar_irradiance": [{"time": 0, "value": 1.361}],
+    "stc_panel_area": 3,
+    "stc_panel_count": 100,
+    "stc_efficiency": 0.5,
+    "specific_heat": 0.0012,
+    "aux_heat_power": [{"time": 0, "value": 0}],
+    "aux_efficiency": 0.75,
+    "hot_water_demand": [{"time": 0, "value": 500}],
+    "tank_volume": 10000,
+    "tank_loss_coefficient": 0.001
+}
