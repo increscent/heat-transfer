@@ -38,17 +38,17 @@ For this simulator I assume a system similar to the one described by Li et al. (
 These equations are similar (and in some cases identical) to those given by Li et al. (see [sources](#sources)).
 
 Temperature of the main tank during a discrete time segment:
-T<sup>M</sup><sub>h</sub> = (1 - l<sup>M</sup>)T<sup>M</sup><sub>h-1</sub> + (Q<sup>s</sup><sub>h</sub> + Q<sup>eh</sup><sub>h</sub>) / (CV) - (<i>d</i>T<sup>w</sup><sub>h</sub> D<sup>w</sup><sub>h</sub>) / V
+T = (1 - L)T₋₁ + (Qₛ + Qₕ) / (CV) - (<i>d</i>W D) / V
 
-T<sup>M</sup><sub>h</sub>: Temperature of main tank during time slice h
-l<sup>M</sup>: Heat loss coefficient of main tank
-T<sup>M</sup><sub>h-1</sub>: Temperature of main tank during previous time slice
-Q<sup>s</sup><sub>h</sub>: Solar energy transferred to the main tank during time slice h
-Q<sup>eh</sup><sub>h<sub>: Energy transferred by electric heater to the main tank during time slice h
-C: Specific heat of the heat transfer fluid
-V: Volume of the main tank
-<i>d</i>T<sup>w</sup><sub>h</sub>: Difference in temperature between the set point and the cold tap water
-D<sup>w</sup><sub>h</sub>: Demand in liters for water during time slice h at the set point temperature
+* T: Temperature of main tank during the time slice
+* L: Heat loss coefficient of main tank
+* T₋₁: Temperature of main tank during the previous time slice
+* Qₛ: Solar energy transferred to the main tank during the time slice
+* Qₕ: Energy transferred by the electric heater/heat pump to the main tank during the time slice
+* C: Specific heat of the heat transfer fluid
+* V: Volume of the main tank
+* <i>d</i>W: Difference in temperature between the set point and the cold tap water
+* D: Demand in liters for water at the set point temperature during the time slice
 
 ## Sources
 I used the following sources to understand the terminology and components of SWH systems:
