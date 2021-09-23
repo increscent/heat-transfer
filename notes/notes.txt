@@ -1,0 +1,18 @@
+Problem statement:
+Based on the intensity of the sunlight, the ambient external temperature, and the system configuration (including pipe lengths, working fluid, heat transfer device, etc.), predict the temperature over time of water in the storage tank.
+
+This predicted temperature should account for normal hot water usage, and it should inform pump and gas/electric water heating controls.
+
+The simulator must accept historical or predicted temperatures/sun intensity as input.
+
+Drawbacks to direct water heat transfer:
+https://en.wikipedia.org/wiki/Solar_water_heating#Direct
+
+Bonus feature:
+Backup gas/electric heater when predicted temperature drops too much
+
+Evac tube vs flat plate:
+https://en.wikipedia.org/wiki/Solar_thermal_collector
+
+It's best to put the pump right next to the tank so that the waste heat can be used:
+https://www.thermalfluidscentral.org/encyclopedia/index.php/Heat_Pump
